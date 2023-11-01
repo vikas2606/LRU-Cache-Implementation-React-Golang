@@ -1,70 +1,121 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# LRU Cache Implementation (React+Golang)
 
-## Available Scripts
+This project provides two implementations of an LRU (Least Recently Used) cache in Go. You can choose between the LRU cache and the DLL-based cache by specifying a keyword in the `main` function.
 
-In the project directory, you can run:
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ **Client:** React JS
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Server:** Golang
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Table of Contents
+- [Overview](#overview)
+- [Cache Implementations](#cache-implementations)
+- [Getting Started](#getting-started)
+- [API Routes](#api-routes)
+- [Switching Between Caches](#switching-between-caches)
+- [Customization](#customization)
+## Overview
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Both cache implementations share the following features:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Cache Operations: Get, Set, and List keys.
+- Thread-Safe Access: Synchronized access using mutexes.
+- Expiration Handling: Automatic removal of items after a specified duration.
+- Selectable Cache Type: Choose between LRU and DLL-based caches.
+- Dynamic Cache Size: Set the maximum size of the cache.
+- HTTP Routes: API routes for cache management.
+- Access Order: Maintain access order for the DLL-based cache, while LRU cache follows LRU order.
+- Concurrency Control: Handle concurrent access gracefully.
+- Automatic Item Removal: Remove expired items to free up cache space.
+- CORS Configuration: Control access using Cross-Origin Resource Sharing (CORS).
+- Modularity and Extensibility: Add custom features as needed.
+## Cache Implementations
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### LRU Cache
+- Uses the LRU algorithm to manage cached items.
+- Implemented with the `github.com/hashicorp/golang-lru` library.
+- Provides routes for cache management.
 
-### `npm run eject`
+### DLL-based Cache
+- Uses a hashmap and a doubly linked list to manage cached items.
+- Provides routes for cache management.
+- Maintains access order in the doubly linked list.
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Clone the project
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+  git clone https://github.com/vikas2606/LRU-Cache-Implementation-React-Golang.git
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Implement Backend
+From root folder
+```bash
+  cd backend
+```
 
-## Learn More
+Install dependencies
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  go mod tidy
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Start the server
 
-### Analyzing the Bundle Size
+```bash
+  go run main.go
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+### Implement Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+From root folder
+```bash
+  cd frontend
+```
 
-### Advanced Configuration
+Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+  npm install
 
-### Deployment
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+Start the Client
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+  npm start
+```
+## Related
+
+Here are some related projects
+
+[Awesome README](https://github.com/matiassingers/awesome-readme)
+
+
+## API Routes
+
+The following API routes are available for cache management:
+
+- __GET /get__ : List all keys in the cache.
+- __GET /get/:key__ : Retrieve a value from the cache based on the provided key.
+- __POST /set__: Add a key-value pair to the cache with an optional expiration time.
+## Switching Between Caches
+
+You can select between the LRU cache and the DLL-based cache by changing a keyword in the `main.go` file:
+```bash
+// Change this keyword to select the cache implementation
+cacheType := "lru" // Change this to "dll" to use the DLL-based cache
+
+```
+## Customization
+You can customize the cache size, CORS settings, and other aspects of the application by modifying the appropriate code sections in the `main.go` and `router.go` files.
